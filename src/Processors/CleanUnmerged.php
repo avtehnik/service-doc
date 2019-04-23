@@ -4,9 +4,9 @@
  * @license Apache 2.0
  */
 
-namespace OpenApi\Processors;
+namespace ServiceDoc\Processors;
 
-use OpenApi\Analysis;
+use ServiceDoc\Analysis;
 use SplObjectStorage;
 
 /**
@@ -29,9 +29,9 @@ class CleanUnmerged
                 }
             }
         }
-        $analysis->openapi->_unmerged = [];
+        $analysis->servicedoc->_unmerged = [];
         foreach ($unmerged as $annotation) {
-            $analysis->openapi->_unmerged[] = $annotation;
+            $analysis->servicedoc->_unmerged[] = $annotation;
         }
     }
 }

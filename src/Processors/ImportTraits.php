@@ -1,13 +1,13 @@
 <?php
 
-namespace OpenApi\Processors;
+namespace ServiceDoc\Processors;
 
-use OpenApi\Analyser;
-use OpenApi\Annotations\Property;
-use OpenApi\Annotations\OpenApi;
-use OpenApi\Annotations\Definition;
-use OpenApi\Annotations\Schema;
-use OpenApi\Analysis;
+use ServiceDoc\Analyser;
+use ServiceDoc\Annotations\Property;
+use ServiceDoc\Annotations\ServiceDoc;
+use ServiceDoc\Annotations\Definition;
+use ServiceDoc\Annotations\Schema;
+use ServiceDoc\Analysis;
 use Traversable;
 
 class ImportTraits

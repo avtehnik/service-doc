@@ -36,7 +36,7 @@
   },
   "autoload": {
     "psr-4": {
-      "OpenApi\\": "src"
+      "ServiceDoc\\": "src"
     },
     "files": [
       "src/functions.php"

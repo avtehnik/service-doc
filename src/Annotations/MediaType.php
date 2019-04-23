@@ -4,7 +4,7 @@
  * @license Apache 2.0
  */
 
-namespace OpenApi\Annotations;
+namespace ServiceDoc\Annotations;
 
 /**
  * @Annotation

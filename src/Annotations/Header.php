@@ -3,7 +3,7 @@
  * @license Apache 2.0
  */
 
-namespace OpenApi\Annotations;
+namespace ServiceDoc\Annotations;
 
 /**
  * @Annotation
@@ -39,7 +39,7 @@ class Header extends AbstractAnnotation
     /**
      * Schema object
      *
-     * @var \OpenApi\Annotations\Schema
+     * @var \ServiceDoc\Annotations\Schema
      */
     public $schema = UNDEFINED;
 

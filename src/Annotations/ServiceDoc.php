@@ -4,28 +4,28 @@
  * @license Apache 2.0
  */
 
-namespace OpenApi\Annotations;
+namespace ServiceDoc\Annotations;
 
 use Exception;
-use OpenApi\Analysis;
-use OpenApi\Logger;
+use ServiceDoc\Analysis;
+use ServiceDoc\Logger;
 
 /**
  * @Annotation
  * This is the root document object for the API specification.
  *
- * A  "OpenApi Object": https://github.com/OAI/OpenAPI-Specification/blob/OpenAPI.next/versions/3.0.md#openapi-object
+ * A  "ServiceDoc Object": https://github.com/OAI/OpenAPI-Specification/blob/OpenAPI.next/versions/3.0.md#servicedoc-object
  */
-class OpenApi extends AbstractAnnotation
+class ServiceDoc extends AbstractAnnotation
 {
     /**
      * The semantic version number of the OpenAPI Specification version that the OpenAPI document uses.
-     * The openapi field should be used by tooling specifications and clients to interpret the OpenAPI document.
+     * The servicedoc field should be used by tooling specifications and clients to interpret the OpenAPI document.
      * This is not related to the API info.version string.
      *
      * @var string
      */
-    public $openapi = '3.0.0';
+    public $servicedoc = '3.0.0';
 
     /**
      * Provides metadata about the API. The metadata may be used by tooling as required.
@@ -48,6 +48,13 @@ class OpenApi extends AbstractAnnotation
      * @var PathItem[]
      */
     public $paths = UNDEFINED;
+
+    /**
+     * The available paths and operations for the API.
+     *
+     * @var Url[]
+     */
+    public $urls = UNDEFINED;
 
     /**
      * An element to hold various components for the specification.
@@ -104,15 +111,16 @@ class OpenApi extends AbstractAnnotation
     /**
      * @inheritdoc
      */
-    public static $_required = ['openapi', 'info', 'paths'];
+    public static $_required = ['servicedoc', 'info', 'paths'];
 
     /**
      * @inheritdoc
      */
     public static $_nested = [
         Info::class => 'info',
+        Url::class => ['urls','url'],
         Server::class => ['servers'],
-        PathItem::class => ['paths', 'path'],
+        PathItem::class => ['paths'],
         Components::class => 'components',
         Tag::class => ['tags'],
         ExternalDocumentation::class => 'externalDocs',

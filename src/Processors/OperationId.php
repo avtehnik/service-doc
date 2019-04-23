@@ -4,13 +4,13 @@
  * @license Apache 2.0
  */
 
-namespace OpenApi\Processors;
+namespace ServiceDoc\Processors;
 
-use OpenApi\Analysis;
-use OpenApi\Annotations\Operation;
+use ServiceDoc\Analysis;
+use ServiceDoc\Annotations\Operation;
 
 /**
- * Generate the OperationId based on the context of the OpenApi comment.
+ * Generate the OperationId based on the context of the ServiceDoc comment.
  */
 class OperationId
 {

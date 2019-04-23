@@ -4,7 +4,7 @@
  * @license Apache 2.0
  */
 
-namespace OpenApi;
+namespace ServiceDoc;
 
 use InvalidArgumentException;
 use Symfony\Component\Finder\Finder;

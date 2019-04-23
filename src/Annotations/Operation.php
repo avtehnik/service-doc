@@ -4,13 +4,13 @@
  * @license Apache 2.0
  */
 
- namespace OpenApi\Annotations;
+ namespace ServiceDoc\Annotations;
 
-use OpenApi\Logger;
+use ServiceDoc\Logger;
 
 /**
  * @Annotation
- * Base class for the @OA\Get(),  @OA\Post(),  @OA\Put(),  @OA\Delete(), @OA\Patch(), etc
+ * Base class for the @ServiceDoc\Get(),  @ServiceDoc\Post(),  @ServiceDoc\Put(),  @ServiceDoc\Delete(), @ServiceDoc\Patch(), etc
  *
  * An "Operation Object": https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md#operation-object
  * Describes a single API operation on a path.
@@ -18,7 +18,7 @@ use OpenApi\Logger;
 abstract class Operation extends AbstractAnnotation
 {
     /**
-     * key in the OpenApi "Paths Object" for this operation
+     * key in the ServiceDoc "Paths Object" for this operation
      *
      * @var string
      */
@@ -33,7 +33,7 @@ abstract class Operation extends AbstractAnnotation
     public $tags = UNDEFINED;
 
     /**
-     * Key in the OpenApi "Path Item Object" for this operation.
+     * Key in the ServiceDoc "Path Item Object" for this operation.
      * Allowed values: 'get', 'post', put', 'patch', 'delete', 'options', 'head' and 'trace'
      *
      * @var string
@@ -94,7 +94,7 @@ abstract class Operation extends AbstractAnnotation
     /**
      * The list of possible responses as they are returned from executing this operation.
      *
-     * @var \OpenApi\Annotations\Response[]
+     * @var \ServiceDoc\Annotations\Response[]
      */
     public $responses = UNDEFINED;
 
@@ -139,7 +139,7 @@ abstract class Operation extends AbstractAnnotation
     /**
      * @inheritdoc
      */
-    public static $_required = ['responses'];
+    public static $_required = ['path'];
 
     /**
      * @inheritdoc
@@ -171,7 +171,6 @@ abstract class Operation extends AbstractAnnotation
     {
         $data = parent::jsonSerialize();
         unset($data->method);
-        unset($data->path);
         return $data;
     }
 
@@ -181,7 +180,7 @@ abstract class Operation extends AbstractAnnotation
             return true;
         }
         $valid = parent::validate($parents, $skip);
-        if ($this->responses !== null) {
+        if ($this->responses !== null && is_array($this->responses)) {
             foreach ($this->responses as $response) {
                 if ($response->response !== UNDEFINED &&$response->response !== 'default' && preg_match('/^([12345]{1}[0-9]{2})|([12345]{1}XX)$/', (string)$response->response) === 0) {
                     Logger::notice('Invalid value "' . $response->response . '" for ' . $response->_identity([]) . '->response, expecting "default", a HTTP Status Code or HTTP Status Code range definition in ' . $response->_context);

@@ -4,7 +4,7 @@
  * @license Apache 2.0
  */
 
-namespace OpenApi\Annotations;
+namespace ServiceDoc\Annotations;
 
 /**
  * @Annotation
@@ -21,7 +21,7 @@ class SecurityScheme extends AbstractAnnotation
     public $ref = UNDEFINED;
 
     /**
-     * The key into OpenApi->security array.
+     * The key into ServiceDoc->security array.
      *
      * @var string
      */

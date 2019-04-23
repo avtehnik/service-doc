@@ -4,7 +4,7 @@
  * @license Apache 2.0
  */
 
-namespace OpenApi;
+namespace ServiceDoc;
 
 use Closure;
 use Exception;
@@ -52,7 +52,7 @@ class Logger
     }
 
     /**
-     * Log a OpenApi warning.
+     * Log a ServiceDoc warning.
      *
      * @param Exception|string $entry
      */
@@ -62,7 +62,7 @@ class Logger
     }
 
     /**
-     * Log a OpenApi notice.
+     * Log a ServiceDoc notice.
      *
      * @param Exception|string $entry
      */

@@ -4,21 +4,21 @@
  * @license Apache 2.0
  */
 
-namespace OpenApi;
+namespace ServiceDoc;
 
-use OpenApi\Annotations\OpenApi;
+use ServiceDoc\Annotations\ServiceDoc;
 use Symfony\Component\Finder\Finder;
 
-if (defined('OpenApi\UNDEFINED') === false) {
+if (defined('ServiceDoc\UNDEFINED') === false) {
     /**
      * Special value to differentiate between null and undefined.
      */
-    define('OpenApi\UNDEFINED', '@OA\UNDEFINED🙈');
-    define('OpenApi\Annotations\UNDEFINED', UNDEFINED);
-    define('OpenApi\Processors\UNDEFINED', UNDEFINED);
+    define('ServiceDoc\UNDEFINED', '@ServiceDoc\UNDEFINED🙈');
+    define('ServiceDoc\Annotations\UNDEFINED', UNDEFINED);
+    define('ServiceDoc\Processors\UNDEFINED', UNDEFINED);
 
     /**
-     * Scan the filesystem for OpenAPI annotations and build openapi-documentation.
+     * Scan the filesystem for OpenAPI annotations and build servicedoc-documentation.
      *
      * @param  string|array|Finder $directory The directory(s) or filename(s)
      * @param  array               $options
@@ -27,7 +27,7 @@ if (defined('OpenApi\UNDEFINED') === false) {
      *   analyser: defaults to StaticAnalyser
      *   analysis: defaults to a new Analysis
      *   processors: defaults to the registered processors in Analysis
-     * @return OpenApi
+     * @return ServiceDoc
      */
     function scan($directory, $options = [])
     {
@@ -46,6 +46,6 @@ if (defined('OpenApi\UNDEFINED') === false) {
         $analysis->process($processors);
         // Validation (Generate notices & warnings)
         $analysis->validate();
-        return $analysis->openapi;
+        return $analysis->servicedoc;
     }
 }

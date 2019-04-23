@@ -4,7 +4,7 @@
  * @license Apache 2.0
  */
 
-namespace OpenApi\Annotations;
+namespace ServiceDoc\Annotations;
 
 /**
  * @Annotation
@@ -16,7 +16,7 @@ namespace OpenApi\Annotations;
 class PathItem extends AbstractAnnotation
 {
     /**
-     * key for the Path Object (OpenApi->paths array).
+     * key for the Path Object (ServiceDoc->paths array).
      *
      * @var string
      */
@@ -78,6 +78,14 @@ class PathItem extends AbstractAnnotation
      */
     public $patch = UNDEFINED;
 
+
+    /**
+     * A definition of a PATCH operation on this path.
+     *
+     * @var Patch
+     */
+    public $tags = UNDEFINED;
+
     /**
      * A definition of a TRACE operation on this path.
      *
@@ -93,6 +101,13 @@ class PathItem extends AbstractAnnotation
     public $servers = UNDEFINED;
 
     /**
+     * An alternative server array to service all operations in this path.
+     *
+     * @var Server[]
+     */
+    public $microservice = UNDEFINED;
+
+    /**
      * A list of parameters that are applicable for all the operations described under this path.
      * These parameters can be overridden at the operation level, but cannot be removed there.
      * The list must not include duplicated parameters.
@@ -103,12 +118,27 @@ class PathItem extends AbstractAnnotation
      */
     public $parameters = UNDEFINED;
 
+
+    /**
+     * The name of an existing, resolvable OA operation, as defined with a unique operationId.
+     * This field is mutually exclusive of the operationRef field.
+     *
+     * @var string
+     */
+    public $operationId = UNDEFINED;
+
     /**
      * @inheritdoc
      */
     public static $_types = [
-        'path' => 'string'
+        'path' => 'string',
+        'microservice' => 'string'
     ];
+
+    /**
+     * @inheritdoc
+     */
+    public static $_required = ['microservice'];
 
     /**
      * @inheritdoc
@@ -124,12 +154,13 @@ class PathItem extends AbstractAnnotation
         Options::class => 'options',
         Parameter::class => ['parameters'],
         Server::class => ['servers'],
+        Tag::class => ['tags'],
     ];
 
     /**
      * @inheritdoc
      */
     public static $_parents = [
-        OpenApi::class
+        ServiceDoc::class
     ];
 }

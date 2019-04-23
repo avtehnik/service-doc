@@ -4,27 +4,27 @@
  * @license Apache 2.0
  */
 
-namespace OpenApi;
+namespace ServiceDoc;
 
 use Closure;
 use Exception;
 use SplObjectStorage;
 use stdClass;
-use OpenApi\Annotations\AbstractAnnotation;
-use OpenApi\Annotations\OpenApi;
-use OpenApi\Processors\AugmentOperations;
-use OpenApi\Processors\AugmentParameters;
-use OpenApi\Processors\AugmentProperties;
-use OpenApi\Processors\AugmentSchemas;
-use OpenApi\Processors\BuildPaths;
-use OpenApi\Processors\CleanUnmerged;
-use OpenApi\Processors\InheritProperties;
-use OpenApi\Processors\MergeIntoComponents;
-use OpenApi\Processors\MergeIntoOpenApi;
-use OpenApi\Processors\MergeJsonContent;
-use OpenApi\Processors\MergeXmlContent;
-use OpenApi\Processors\OperationId;
-use OpenApi\Processors\ImportTraits;
+use ServiceDoc\Annotations\AbstractAnnotation;
+use ServiceDoc\Annotations\ServiceDoc;
+use ServiceDoc\Processors\AugmentOperations;
+use ServiceDoc\Processors\AugmentParameters;
+use ServiceDoc\Processors\AugmentProperties;
+use ServiceDoc\Processors\AugmentSchemas;
+use ServiceDoc\Processors\BuildPaths;
+use ServiceDoc\Processors\CleanUnmerged;
+use ServiceDoc\Processors\InheritProperties;
+use ServiceDoc\Processors\MergeIntoComponents;
+use ServiceDoc\Processors\MergeIntoServiceDoc;
+use ServiceDoc\Processors\MergeJsonContent;
+use ServiceDoc\Processors\MergeXmlContent;
+use ServiceDoc\Processors\OperationId;
+use ServiceDoc\Processors\ImportTraits;
 
 /**
  * Result of the analyser which pretends to be an array of annotations, but also contains detected classes and helper
@@ -52,11 +52,11 @@ class Analysis
     public $traits = [];
 
     /**
-     * The target OpenApi annotation.
+     * The target ServiceDoc annotation.
      *
-     * @var OpenApi
+     * @var ServiceDoc
      */
-    public $openapi;
+    public $servicedoc;
 
     /**
      * Registry for the post-processing operations.
@@ -91,8 +91,8 @@ class Analysis
         }
         if ($annotation instanceof AbstractAnnotation) {
             $context = $annotation->_context;
-            if ($this->openapi === null && $annotation instanceof OpenApi) {
-                $this->openapi = $annotation;
+            if ($this->servicedoc === null && $annotation instanceof ServiceDoc) {
+                $this->servicedoc = $annotation;
             }
         } else {
             if ($context->is('annotations') === false) {
@@ -163,8 +163,8 @@ class Analysis
         }
         $this->classes = array_merge($this->classes, $analysis->classes);
         $this->traits = array_merge($this->traits, $analysis->traits);
-        if ($this->openapi === null && $analysis->openapi) {
-            $this->openapi = $analysis->openapi;
+        if ($this->servicedoc === null && $analysis->servicedoc) {
+            $this->servicedoc = $analysis->servicedoc;
             $analysis->target->_context->analysis = $this;
         }
     }
@@ -274,7 +274,7 @@ class Analysis
      *
      * @param object $annotation
      *
-     * @return \OpenApi\Context
+     * @return \ServiceDoc\Context
      */
     public function getContext($annotation)
     {
@@ -301,13 +301,13 @@ class Analysis
      */
     public function merged()
     {
-        if (!$this->openapi) {
-            throw new Exception('No openapi target set. Run the MergeIntoOpenApi processor');
+        if (!$this->servicedoc) {
+            throw new Exception('No servicedoc target set. Run the MergeIntoServiceDoc processor');
         }
-        $unmerged = $this->openapi->_unmerged;
-        $this->openapi->_unmerged = [];
-        $analysis = new Analysis([$this->openapi]);
-        $this->openapi->_unmerged = $unmerged;
+        $unmerged = $this->servicedoc->_unmerged;
+        $this->servicedoc->_unmerged = [];
+        $analysis = new Analysis([$this->servicedoc]);
+        $this->servicedoc->_unmerged = $unmerged;
 
         return $analysis;
     }
@@ -370,7 +370,7 @@ class Analysis
         if (!self::$processors) {
             // Add default processors.
             self::$processors = [
-                new MergeIntoOpenApi(),
+                new MergeIntoServiceDoc(),
                 new MergeIntoComponents(),
                 new ImportTraits(),
                 new AugmentSchemas(),
@@ -418,10 +418,10 @@ class Analysis
 
     public function validate()
     {
-        if ($this->openapi) {
-            return $this->openapi->validate();
+        if ($this->servicedoc) {
+            return $this->servicedoc->validate();
         }
-        Logger::notice('No openapi target set. Run the MergeIntoOpenApi processor before validate()');
+        Logger::notice('No servicedoc target set. Run the MergeIntoServiceDoc processor before validate()');
 
         return false;
     }

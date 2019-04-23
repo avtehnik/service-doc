@@ -4,7 +4,7 @@
  * @license Apache 2.0
  */
 
-namespace OpenApi\Annotations;
+namespace ServiceDoc\Annotations;
 
 /**
  * @Annotation
@@ -51,7 +51,7 @@ class Tag extends AbstractAnnotation
      * @inheritdoc
      */
     public static $_parents = [
-        OpenApi::class
+        ServiceDoc::class
     ];
 
     /**

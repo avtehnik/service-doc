@@ -4,10 +4,10 @@
  * @license Apache 2.0
  */
 
-namespace OpenApi\Processors;
+namespace ServiceDoc\Processors;
 
-use OpenApi\Analysis;
-use OpenApi\Annotations\Operation;
+use ServiceDoc\Analysis;
+use ServiceDoc\Annotations\Operation;
 
 /**
  * Use the operation context to extract useful information and inject that into the annotation.

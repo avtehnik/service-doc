@@ -4,21 +4,21 @@
  * @license Apache 2.0
  */
 
-namespace OpenApi\Processors;
+namespace ServiceDoc\Processors;
 
-use OpenApi\Analysis;
+use ServiceDoc\Analysis;
 
 /**
- * Use the parameter->name as keyfield (parameter->parameter) when used as reusable component (openapi->components->parameters)
+ * Use the parameter->name as keyfield (parameter->parameter) when used as reusable component (servicedoc->components->parameters)
  */
 class AugmentParameters
 {
     public function __invoke(Analysis $analysis)
     {
-        if ($analysis->openapi->components !== UNDEFINED && $analysis->openapi->components->parameters !== UNDEFINED) {
+        if ($analysis->servicedoc->components !== UNDEFINED && $analysis->servicedoc->components->parameters !== UNDEFINED) {
             $keys = [];
             $parametersWithoutKey = [];
-            foreach ($analysis->openapi->components->parameters as $parameter) {
+            foreach ($analysis->servicedoc->components->parameters as $parameter) {
                 if ($parameter->parameter !== UNDEFINED) {
                     $keys[$parameter->parameter] = $parameter;
                 } else {

@@ -4,14 +4,14 @@
  * @license Apache 2.0
  */
 
-namespace OpenApi\Processors;
+namespace ServiceDoc\Processors;
 
-use OpenApi\Annotations\MediaType;
-use OpenApi\Annotations\RequestBody;
-use OpenApi\Annotations\Response;
-use OpenApi\Analysis;
-use OpenApi\Annotations\XmlContent;
-use OpenApi\Context;
+use ServiceDoc\Annotations\MediaType;
+use ServiceDoc\Annotations\RequestBody;
+use ServiceDoc\Annotations\Response;
+use ServiceDoc\Analysis;
+use ServiceDoc\Annotations\XmlContent;
+use ServiceDoc\Context;
 
 /**
  * Split XmlContent into Schema and MediaType

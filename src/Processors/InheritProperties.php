@@ -4,12 +4,12 @@
  * @license Apache 2.0
  */
 
-namespace OpenApi\Processors;
+namespace ServiceDoc\Processors;
 
-use OpenApi\Annotations\Components;
-use OpenApi\Annotations\Property;
-use OpenApi\Annotations\Schema;
-use OpenApi\Analysis;
+use ServiceDoc\Annotations\Components;
+use ServiceDoc\Annotations\Property;
+use ServiceDoc\Annotations\Schema;
+use ServiceDoc\Analysis;
 use Traversable;
 
 /**
@@ -78,8 +78,8 @@ class InheritProperties
     /**
      * Add to child schema allOf property
      *
-     * @param \OpenApi\Annotations\Schema $childSchema
-     * @param \OpenApi\Annotations\Schema $parentSchema
+     * @param \ServiceDoc\Annotations\Schema $childSchema
+     * @param \ServiceDoc\Annotations\Schema $parentSchema
      */
     private function addAllOfProperty(Schema $childSchema, Schema $parentSchema)
     {

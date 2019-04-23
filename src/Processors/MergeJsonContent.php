@@ -4,14 +4,14 @@
  * @license Apache 2.0
  */
 
-namespace OpenApi\Processors;
+namespace ServiceDoc\Processors;
 
-use OpenApi\Annotations\MediaType;
-use OpenApi\Annotations\JsonContent;
-use OpenApi\Annotations\Response;
-use OpenApi\Annotations\RequestBody;
-use OpenApi\Analysis;
-use OpenApi\Context;
+use ServiceDoc\Annotations\MediaType;
+use ServiceDoc\Annotations\JsonContent;
+use ServiceDoc\Annotations\Response;
+use ServiceDoc\Annotations\RequestBody;
+use ServiceDoc\Analysis;
+use ServiceDoc\Context;
 
 /**
  * Split JsonContent into Schema and MediaType

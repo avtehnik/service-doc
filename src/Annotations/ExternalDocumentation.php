@@ -4,7 +4,7 @@
  * @license Apache 2.0
  */
 
-namespace OpenApi\Annotations;
+namespace ServiceDoc\Annotations;
 
 /**
  * @Annotation
@@ -45,7 +45,7 @@ class ExternalDocumentation extends AbstractAnnotation
      * @inheritdoc
      */
     public static $_parents = [
-        OpenApi::class,
+        ServiceDoc::class,
         Tag::class,
         Schema::class,
         AdditionalProperties::class,

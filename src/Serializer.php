@@ -4,9 +4,9 @@
  * @license Apache 2.0
  */
 
-namespace OpenApi;
+namespace ServiceDoc;
 
-use OpenApi\Annotations\AbstractAnnotation;
+use ServiceDoc\Annotations\AbstractAnnotation;
 
 /**
  * Class AnnotationDeserializer is used to deserialize a json string
@@ -16,31 +16,31 @@ use OpenApi\Annotations\AbstractAnnotation;
  */
 class Serializer
 {
-    const CONTACT = 'OpenApi\Annotations\Contact';
-    const DELETE = 'OpenApi\Annotations\Delete';
-    const EXTERNALDOCUMENTATION = 'OpenApi\Annotations\ExternalDocumentation';
-    const FLOW = 'OpenApi\Annotations\Flow';
-    const GET = 'OpenApi\Annotations\Get';
-    const HEAD = 'OpenApi\Annotations\Head';
-    const HEADER = 'OpenApi\Annotations\Header';
-    const INFO = 'OpenApi\Annotations\Info';
-    const ITEMS = 'OpenApi\Annotations\Items';
-    const LICENSE = 'OpenApi\Annotations\License';
-    const OPENAPI = 'OpenApi\Annotations\OpenApi';
-    const OPERATION = 'OpenApi\Annotations\Operation';
-    const OPTIONS = 'OpenApi\Annotations\Options';
-    const PARAMETER = 'OpenApi\Annotations\Parameter';
-    const PATCH = 'OpenApi\Annotations\Patch';
-    const PATHITEM = 'OpenApi\Annotations\PathItem';
-    const POST = 'OpenApi\Annotations\Post';
-    const PROPERTY = 'OpenApi\Annotations\Property';
-    const PUT = 'OpenApi\Annotations\Put';
-    const REQUESTBODY = 'OpenApi\Annotations\RequestBody';
-    const RESPONSE = 'OpenApi\Annotations\Response';
-    const SCHEMA = 'OpenApi\Annotations\Schema';
-    const SECURITYSCHEME = 'OpenApi\Annotations\SecurityScheme';
-    const TAG = 'OpenApi\Annotations\Tag';
-    const XML = 'OpenApi\Annotations\Xml';
+    const CONTACT = 'ServiceDoc\Annotations\Contact';
+    const DELETE = 'ServiceDoc\Annotations\Delete';
+    const EXTERNALDOCUMENTATION = 'ServiceDoc\Annotations\ExternalDocumentation';
+    const FLOW = 'ServiceDoc\Annotations\Flow';
+    const GET = 'ServiceDoc\Annotations\Get';
+    const HEAD = 'ServiceDoc\Annotations\Head';
+    const HEADER = 'ServiceDoc\Annotations\Header';
+    const INFO = 'ServiceDoc\Annotations\Info';
+    const ITEMS = 'ServiceDoc\Annotations\Items';
+    const LICENSE = 'ServiceDoc\Annotations\License';
+    const OPENAPI = 'ServiceDoc\Annotations\ServiceDoc';
+    const OPERATION = 'ServiceDoc\Annotations\Operation';
+    const OPTIONS = 'ServiceDoc\Annotations\Options';
+    const PARAMETER = 'ServiceDoc\Annotations\Parameter';
+    const PATCH = 'ServiceDoc\Annotations\Patch';
+    const PATHITEM = 'ServiceDoc\Annotations\PathItem';
+    const POST = 'ServiceDoc\Annotations\Post';
+    const PROPERTY = 'ServiceDoc\Annotations\Property';
+    const PUT = 'ServiceDoc\Annotations\Put';
+    const REQUESTBODY = 'ServiceDoc\Annotations\RequestBody';
+    const RESPONSE = 'ServiceDoc\Annotations\Response';
+    const SCHEMA = 'ServiceDoc\Annotations\Schema';
+    const SECURITYSCHEME = 'ServiceDoc\Annotations\SecurityScheme';
+    const TAG = 'ServiceDoc\Annotations\Tag';
+    const XML = 'ServiceDoc\Annotations\Xml';
 
     private static $cachedNames;
 
@@ -83,7 +83,7 @@ class Serializer
     public function deserialize($jsonString, $className)
     {
         if (!$this->isValidClassName($className)) {
-            throw new \Exception($className.' is not defined in OpenApi PHP Annotations');
+            throw new \Exception($className.' is not defined in ServiceDoc PHP Annotations');
         }
         return $this->doDeserialize(json_decode($jsonString), $className);
     }
@@ -98,10 +98,10 @@ class Serializer
      *
      * @throws \Exception
      */
-    public function deserializeFile($filename, $className = 'OpenApi\Annotations\OpenApi')
+    public function deserializeFile($filename, $className = 'ServiceDoc\Annotations\ServiceDoc')
     {
         if (!$this->isValidClassName($className)) {
-            throw new \Exception($className.' is not defined in OpenApi PHP Annotations');
+            throw new \Exception($className.' is not defined in ServiceDoc PHP Annotations');
         }
         $jsonString = file_get_contents($filename);
         return $this->doDeserialize(json_decode($jsonString), $className);
@@ -189,7 +189,7 @@ class Serializer
      * @param string $type The property type
      * @param mixed $value The value to deserialization
      *
-     * @return array|\OpenApi\Annotations\AbstractAnnotation
+     * @return array|\ServiceDoc\Annotations\AbstractAnnotation
      */
     private function doDeserializeBaseProperty($type, $value)
     {

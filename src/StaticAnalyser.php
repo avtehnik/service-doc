@@ -4,10 +4,10 @@
  * @license Apache 2.0
  */
 
-namespace OpenApi;
+namespace ServiceDoc;
 
 /**
- * OpenApi\StaticAnalyser extracts swagger-php annotations from php code using static analysis.
+ * ServiceDoc\StaticAnalyser extracts swagger-php annotations from php code using static analysis.
  */
 class StaticAnalyser
 {
@@ -31,8 +31,8 @@ class StaticAnalyser
     public function fromFile($filename)
     {
         if (function_exists('opcache_get_status') && function_exists('opcache_get_configuration')) {
-            if (empty($GLOBALS['openapi_opcache_warning'])) {
-                $GLOBALS['openapi_opcache_warning'] = true;
+            if (empty($GLOBALS['servicedoc_opcache_warning'])) {
+                $GLOBALS['servicedoc_opcache_warning'] = true;
                 $status = opcache_get_status();
                 $config = opcache_get_configuration();
                 if ($status['opcache_enabled'] && $config['directives']['opcache.save_comments'] == false) {
@@ -74,7 +74,7 @@ class StaticAnalyser
         $analysis = new Analysis();
         reset($tokens);
         $token = '';
-        $imports = Analyser::$defaultImports; // Use @OA\* for swagger-php annotations (unless overwritten by a use statement)
+        $imports = Analyser::$defaultImports; // Use @ServiceDoc\* for swagger-php annotations (unless overwritten by a use statement)
 
         $parseContext->uses = [];
         $schemaContext = $parseContext; // Use the parseContext until a definitionContext  (class or trait) is created.
@@ -298,7 +298,6 @@ class StaticAnalyser
         if ($traitDefinition) {
             $analysis->addTraitDefinition($traitDefinition);
         }
-
         return $analysis;
     }
 
@@ -330,7 +329,7 @@ class StaticAnalyser
                 continue;
             }
             if ($token[0] === T_COMMENT) {
-                $pos = strpos($token[1], '@OA\\');
+                $pos = strpos($token[1], '@ServiceDoc\\');
                 if ($pos) {
                     $line = $context->line ? $context->line + $token[2] : $token[2];
                     $commentContext = new Context(['line' => $line], $context);

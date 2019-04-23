@@ -4,11 +4,11 @@
  * @license Apache 2.0
  */
 
-namespace OpenApi\Processors;
+namespace ServiceDoc\Processors;
 
-use OpenApi\Analysis;
-use OpenApi\Annotations\Schema;
-use OpenApi\Annotations\Property;
+use ServiceDoc\Analysis;
+use ServiceDoc\Annotations\Schema;
+use ServiceDoc\Annotations\Property;
 
 /**
  * Use the Schema context to extract useful information and inject that into the annotation.
@@ -19,7 +19,7 @@ class AugmentSchemas
     public function __invoke(Analysis $analysis)
     {
         $schemas = $analysis->getAnnotationsOfType(Schema::class);
-        // Use the class names for @OA\Schema()
+        // Use the class names for @ServiceDoc\Schema()
         foreach ($schemas as $schema) {
             if ($schema->schema === UNDEFINED) {
                 if ($schema->_context->is('class')) {
@@ -29,7 +29,7 @@ class AugmentSchemas
                 }
             }
         }
-        // Merge unmerged @OA\Property annotations into the @OA\Schema of the class
+        // Merge unmerged @ServiceDoc\Property annotations into the @ServiceDoc\Schema of the class
         $unmergedProperties = $analysis->unmerged()->getAnnotationsOfType(Property::class);
         foreach ($unmergedProperties as $property) {
             if ($property->_context->nested) {

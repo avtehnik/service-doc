@@ -4,14 +4,15 @@
  * @license Apache 2.0
  */
 
-namespace OpenApi\Processors;
+namespace ServiceDoc\Processors;
 
-use OpenApi\Annotations\Components;
-use OpenApi\Annotations\Schema;
-use OpenApi\Analysis;
-use OpenApi\Annotations\Items;
-use OpenApi\Annotations\Property;
-use OpenApi\Context;
+use Doctrine\Common\Annotations\PhpParser;
+use ServiceDoc\Annotations\Components;
+use ServiceDoc\Annotations\Schema;
+use ServiceDoc\Analysis;
+use ServiceDoc\Annotations\Items;
+use ServiceDoc\Annotations\Property;
+use ServiceDoc\Context;
 
 /**
  * Use the property context to extract useful information and inject that into the annotation.
@@ -43,8 +44,8 @@ class AugmentProperties
     public function __invoke(Analysis $analysis)
     {
         $refs = [];
-        if ($analysis->openapi->components !== UNDEFINED && $analysis->openapi->components->schemas !== UNDEFINED) {
-            foreach ($analysis->openapi->components->schemas as $schema) {
+        if ($analysis->servicedoc->components !== UNDEFINED && $analysis->servicedoc->components->schemas !== UNDEFINED) {
+            foreach ($analysis->servicedoc->components->schemas as $schema) {
                 if ($schema->schema !== UNDEFINED) {
                     $refs[strtolower($schema->_context->fullyQualifiedName($schema->_context->class))]
                         = Components::SCHEMA_REF . $schema->schema;
@@ -55,7 +56,7 @@ class AugmentProperties
         $allProperties = $analysis->getAnnotationsOfType(Property::class);
         foreach ($allProperties as $property) {
             $context = $property->_context;
-            // Use the property names for @OA\Property()
+            // Use the property names for @ServiceDoc\Property()
             if ($property->property === UNDEFINED) {
                 $property->property = $context->property;
             }
@@ -63,6 +64,7 @@ class AugmentProperties
                 continue;
             }
             $comment = str_replace("\r\n", "\n", $context->comment);
+            echo $comment.PHP_EOL;
             if (preg_match('/@var\s+(?<type>[^\s]+)([ \t])?(?<description>.+)?$/im', $comment, $varMatches)) {
                 if ($property->type === UNDEFINED) {
                     preg_match('/^([^\[]+)(.*$)/', trim($varMatches['type']), $typeMatches);

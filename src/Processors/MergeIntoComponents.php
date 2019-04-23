@@ -4,21 +4,21 @@
  * @license Apache 2.0
  */
 
-namespace OpenApi\Processors;
+namespace ServiceDoc\Processors;
 
-use OpenApi\Annotations\Components;
-use OpenApi\Analysis;
-use OpenApi\Context;
-use OpenApi\UNDEFINED;
+use ServiceDoc\Annotations\Components;
+use ServiceDoc\Analysis;
+use ServiceDoc\Context;
+use ServiceDoc\UNDEFINED;
 
 /**
- * Merge reusable annotation into @OA\Schemas
+ * Merge reusable annotation into @ServiceDoc\Schemas
  */
 class MergeIntoComponents
 {
     public function __invoke(Analysis $analysis)
     {
-        $components = $analysis->openapi->components;
+        $components = $analysis->servicedoc->components;
         if ($components === UNDEFINED) {
             $components = new Components([]);
             $components->_context->generated = true;
@@ -28,7 +28,7 @@ class MergeIntoComponents
             $class = get_class($annotation);
             if (in_array($class, $classes) && $annotation->_context->is('nested') === false) { // A top level annotation.
                 $components->merge([$annotation], true);
-                $analysis->openapi->components = $components;
+                $analysis->servicedoc->components = $components;
             }
         }
     }

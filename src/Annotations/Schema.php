@@ -4,9 +4,9 @@
  * @license Apache 2.0
  */
 
-namespace OpenApi\Annotations;
+namespace ServiceDoc\Annotations;
 
-use OpenApi\Logger;
+use ServiceDoc\Logger;
 
 /**
  * @Annotation
@@ -374,7 +374,7 @@ class Schema extends AbstractAnnotation
     public function validate($parents = [], $skip = [], $ref = '')
     {
         if ($this->type === 'array' && $this->items === UNDEFINED) {
-            Logger::notice('@OA\Items() is required when ' . $this->identity() . ' has type "array" in ' . $this->_context);
+            Logger::notice('@ServiceDoc\Items() is required when ' . $this->identity() . ' has type "array" in ' . $this->_context);
             return false;
         }
         return parent::validate($parents, $skip, $ref);
