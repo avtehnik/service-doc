@@ -78,11 +78,18 @@ class PathItem extends AbstractAnnotation
      */
     public $patch = UNDEFINED;
 
+    /**
+     * A definition of a Method path.
+     *
+     * @var Method
+     */
+    public $method = UNDEFINED;
+
 
     /**
-     * A definition of a PATCH operation on this path.
+     * A definition of a Tags.
      *
-     * @var Patch
+     * @var Tags
      */
     public $tags = UNDEFINED;
 
@@ -132,6 +139,7 @@ class PathItem extends AbstractAnnotation
      */
     public static $_types = [
         'path' => 'string',
+        'method'=> 'string',
         'microservice' => 'string'
     ];
 
@@ -144,14 +152,6 @@ class PathItem extends AbstractAnnotation
      * @inheritdoc
      */
     public static $_nested = [
-        Get::class => 'get',
-        Post::class => 'post',
-        Put::class => 'put',
-        Delete::class => 'delete',
-        Patch::class => 'patch',
-        Trace::class => 'trace',
-        Head::class => 'head',
-        Options::class => 'options',
         Parameter::class => ['parameters'],
         Server::class => ['servers'],
         Tag::class => ['tags'],
