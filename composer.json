@@ -2,10 +2,7 @@
   "name": "avtehnik/service-doc",
   "type": "library",
   "license": "Apache-2.0",
-  "bin": [
-    "bin/servicedoc"
-  ],
-  "description": "swagger-php - Generate interactive documentation for your RESTful API using phpdoc annotations",
+  "description": "service-doc - Generate interactive documentation for your RESTful API using phpdoc annotations",
   "keywords": [
     "json",
     "rest",
