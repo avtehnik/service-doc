@@ -375,7 +375,7 @@ class Analysis
                 new ImportTraits(),
                 new AugmentSchemas(),
                 new AugmentProperties(),
-                new BuildPaths(),
+//                new BuildPaths(),
                 // new HandleReferences(),
 
                 new InheritProperties(),
