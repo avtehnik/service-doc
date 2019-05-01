@@ -10,7 +10,7 @@ Add annotations to your php files.
 
 ```php
 /**
- * @OA\Info(title="My First API", version="0.1")
+ * @ServiceDoc\Info(title="My First API", version="0.1")
  */
 
 /**
@@ -28,6 +28,31 @@ Add annotations to your php files.
  * @return
  */
 ```
+### Usage from Yii
+
+
+Add servicedoc section to actions array
+
+```php
+    class DocumentationController extends Controller
+    {
+        public function actions()
+        {
+            return [
+                'servicedoc' => [
+                    'class' => 'ServiceDoc\YiiServiceDocAction',
+                    'scanDir' => [
+                        Yii::getAlias('@common/components')
+                    ],
+                ],
+            ];
+        }
+    }
+    
+```
+
+and then you can access to docs with url `/documentation/servicedoc`
+
 
 ### Usage from php
 
