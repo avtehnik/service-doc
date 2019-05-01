@@ -13,14 +13,14 @@ var app = new Vue({
             },
             'calaog': {
                 'apidoc': 'http://catalog-develop.kube-two.yallasvc.net/documentation/api',
-                'sevicedoc': null,
+                'sevicedoc': 'http://calaog-doc.lalafo.loc/service-doc.php',
                 'apidocLoaded': false,
                 'sevicedocLoaded': false,
                 'data': {'api': [], 'sevice': []}
             },
             'client': {
                 'apidoc': null,
-                'sevicedoc': 'http://user-doc.lalafo.loc/service-doc.php',
+                'sevicedoc': 'http://client-doc.lalafo.loc/service-doc.php',
                 'apidocLoaded': false,
                 'sevicedocLoaded': false,
                 'data': {'api': [], 'sevice': []}
@@ -28,6 +28,48 @@ var app = new Vue({
             'seo': {
                 'apidoc': null,
                 'sevicedoc': 'http://seo-doc.lalafo.loc/service-doc.php',
+                'apidocLoaded': false,
+                'sevicedocLoaded': false,
+                'data': {'api': [], 'sevice': []}
+            },
+            'location': {
+                'apidoc': 'http://location-develop.kube-two.yallasvc.net/documentation/api',
+                'sevicedoc': null,
+                'apidocLoaded': false,
+                'sevicedocLoaded': false,
+                'data': {'api': [], 'sevice': []}
+            },
+            'search': {
+                'apidoc': 'http://search-develop.kube-two.yallasvc.net/documentation/api',
+                'sevicedoc': 'http://search-doc.lalafo.loc/service-doc.php',
+                'apidocLoaded': false,
+                'sevicedocLoaded': false,
+                'data': {'api': [], 'sevice': []}
+            },
+            'translation': {
+                'apidoc': 'http://translation-develop.kube-two.yallasvc.net/documentation/api',
+                'sevicedoc': null,
+                'apidocLoaded': false,
+                'sevicedocLoaded': false,
+                'data': {'api': [], 'sevice': []}
+            },
+            'sender': {
+                'apidoc': 'http://sender-develop.kube-two.yallasvc.net/documentation/api',
+                'sevicedoc': null,
+                'apidocLoaded': false,
+                'sevicedocLoaded': false,
+                'data': {'api': [], 'sevice': []}
+            },
+            'duplicates': {
+                'apidoc': 'http://duplicates-develop.kube-two.yallasvc.net/documentation/api',
+                'sevicedoc': null,
+                'apidocLoaded': false,
+                'sevicedocLoaded': false,
+                'data': {'api': [], 'sevice': []}
+            },
+            'fraud': {
+                'apidoc': 'http://fraud-develop.kube-two.yallasvc.net/documentation/api',
+                'sevicedoc': null,
                 'apidocLoaded': false,
                 'sevicedocLoaded': false,
                 'data': {'api': [], 'sevice': []}
@@ -64,7 +106,7 @@ var app = new Vue({
 
                 resolve();
             }).fail(function() {
-                reject();
+                resolve();
                 console.log('reject', service, url);
             });
         },
@@ -83,14 +125,16 @@ var app = new Vue({
                     });
             var UnselectedBrush = "lightgray";  // item appearance, if not "selected"
             var SelectedBrush = "dodgerblue";   // item appearance, if "selected"
+
             function makeItemTemplate(leftside) {
                 return $(go.Panel, "Auto",
                     {margin: new go.Margin(1, 0)},  // some space between ports
+                    new go.Binding("location", "loc", go.Point.parse).makeTwoWay(go.Point.stringify),
                     $(go.Shape,
                         {
                             name: "SHAPE",
                             fill: UnselectedBrush, stroke: "gray",
-                            geometryString: "F1 m 0,0 l 5,0 1,4 -1,4 -5,0 1,-4 -1,-4 z",
+                            // geometryString: "F1 m 0,0 l 5,0 1,4 -1,4 -5,0 1,-4 -1,-4 z",
                             spot1: new go.Spot(0, 0, 5, 1),  // keep the text inside the shape
                             spot2: new go.Spot(1, 1, -5, 0),
                             // some port-related properties
@@ -125,44 +169,148 @@ var app = new Vue({
                 );
             }
 
-            myDiagram.nodeTemplate =
-                $(go.Node, "Spot",
-                    {selectionAdorned: false},
-                    {locationSpot: go.Spot.Center, locationObjectName: "BODY"},
-                    new go.Binding("location", "loc", go.Point.parse).makeTwoWay(go.Point.stringify),
-                    $(go.Panel, "Auto",
-                        {name: "BODY"},
-                        $(go.Shape, "RoundedRectangle",
-                            {stroke: "gray", strokeWidth: 2, fill: "transparent"},
-                            new go.Binding("stroke", "isSelected", function(b) {
-                                return b ? SelectedBrush : UnselectedBrush;
-                            }).ofObject()),
-                        $(go.Panel, "Vertical",
-                            {margin: 6},
-                            $(go.TextBlock,
-                                new go.Binding("text", "name"),
-                                {alignment: go.Spot.Left}),
-                            $(go.Picture, "images/la.png",
-                                {width: 30, height: 45, margin: new go.Margin(10, 10)})
-                        )
-                    ),
-                    $(go.Panel, "Vertical",
-                        { desiredSize: new go.Size(300, 150) },
-                        {name: "LEFTPORTS", alignment: new go.Spot(0, 0.5, 0, 7)},
-                        new go.Binding("itemArray", "inservices"),
-                        {itemTemplate: makeItemTemplate(true)}
-                    ),
-                    $(go.Panel, "Vertical",
-                        {name: "RIGHTPORTS", alignment: new go.Spot(1, 0.5, 0, 7)},
-                        new go.Binding("itemArray", "outservices"),
-                        {itemTemplate: makeItemTemplate(false)}
+            var fieldTemplateLeft =
+                $(go.Panel, "TableRow",  // this Panel is a row in the containing Table
+                    new go.Binding("portId", "name"),  // this Panel is a "port"
+                    {
+                        background: "transparent",  // so this port's background can be picked by the mouse
+                        fromSpot: go.Spot.Right,  // links only go from the right side to the left side
+                        toSpot: go.Spot.Left,
+                        // allow drawing links from or to this port:
+                        fromLinkable: true, toLinkable: true
+                    },
+
+                    $(go.Shape,
+                        {
+                            name: "SHAPE",
+                            column: 1,
+                            minSize: new go.Size(15, 10),
+                            fill: UnselectedBrush,
+                            stroke: "gray",
+                            geometryString: "F1 m 0,0 l 5,0 1,4 -1,4 -5,0 1,-4 -1,-4 z",
+                        },
+                        new go.Binding("fill", "isSelected", function(s) {
+                            return s ? SelectedBrush : UnselectedBrush;
+                        }).ofObject(),
+                        new go.Binding("toLinkable", "_in"),
+                        new go.Binding("fromLinkable", "_in", function(b) {
+                            return !b;
+                        })),
+
+                    $(go.TextBlock,
+                        {
+                            margin: new go.Margin(0, 5), column: 2, font: "bold 13px sans-serif",
+                            alignment: go.Spot.Left,
+                            // and disallow drawing links from or to this text:
+                            fromLinkable: false, toLinkable: false
+                        },
+                        new go.Binding("text", "operationId")),
+                    $(go.TextBlock,
+                        {margin: new go.Margin(0, 5), column: 3, font: "13px sans-serif", alignment: go.Spot.Left},
+                        new go.Binding("text", "name")),
+                    $(go.TextBlock,
+                        {margin: new go.Margin(0, 5), column: 4, font: "13px sans-serif", alignment: go.Spot.Left},
+                        new go.Binding("text", "info"))
+                );
+
+            var fieldTemplateRight =
+                $(go.Panel, "TableRow",  // this Panel is a row in the containing Table
+                    new go.Binding("portId", "operationId"),  // this Panel is a "port"
+                    {
+                        background: "transparent",  // so this port's background can be picked by the mouse
+                        fromSpot: go.Spot.Right,  // links only go from the right side to the left side
+                        toSpot: go.Spot.Left,
+                        // allow drawing links from or to this port:
+                        fromLinkable: true, toLinkable: false
+                    },
+                    $(go.TextBlock,
+                        {
+                            margin: new go.Margin(0, 5), column: 1, font: "bold 13px sans-serif",
+                            alignment: go.Spot.Left,
+                            // and disallow drawing links from or to this text:
+                            fromLinkable: false, toLinkable: false
+                        },
+                        new go.Binding("text", "operationId")),
+                    $(go.TextBlock,
+                        {margin: new go.Margin(0, 5), column: 2, font: "13px sans-serif", alignment: go.Spot.Left},
+                        new go.Binding("text", "name")),
+                    $(go.TextBlock,
+                        {margin: new go.Margin(0, 5), column: 3, font: "13px sans-serif", alignment: go.Spot.Left},
+                        new go.Binding("text", "info")),
+                    $(go.Shape,
+                        {
+                            column: 4,
+                            name: "SHAPE",
+                            minSize: new go.Size(15, 10),
+                            fill: "green",
+                            stroke: "gray",
+                            geometryString: "F1 m 0,0 l 5,0 1,4 -1,4 -5,0 1,-4 -1,-4 z"
+                        },
+                        new go.Binding("fill", "isSelected", function(s) {
+                            return s ? SelectedBrush : UnselectedBrush;
+                        }).ofObject()
                     )
                 );
+
+            myDiagram.nodeTemplate =
+                $(go.Node, "Auto",
+                    {copyable: false, deletable: false},
+                    new go.Binding("location", "loc", go.Point.parse).makeTwoWay(go.Point.stringify),
+                    // this rectangular shape surrounds the content of the node
+                    $(go.Shape,
+                        {fill: "#EEEEEE"}),
+                    // the content consists of a header and a list of items
+                    $(go.Panel, "Vertical",
+                        $(go.Panel, "Auto",
+                            {stretch: go.GraphObject.Horizontal},  // as wide as the whole node
+                            $(go.Shape,
+                                {fill: "#1570A6", stroke: null}),
+
+                            $(go.TextBlock,
+                                {
+                                    alignment: go.Spot.Center,
+                                    margin: 3,
+                                    stroke: "white",
+                                    textAlign: "center",
+                                    font: "bold 12pt sans-serif",
+                                    click: function(e, obj) {
+                                        window.open(obj.part.data.url.replace('/api',''));
+                                    }
+                                },
+                                new go.Binding("text", "name"))),
+
+
+                        $(go.Panel, "Horizontal",
+                            $(go.Panel, "Table",
+                                {
+                                    padding: 2,
+                                    minSize: new go.Size(100, 10),
+                                    defaultStretch: go.GraphObject.Horizontal,
+                                    itemTemplate: fieldTemplateLeft
+                                },
+                                new go.Binding("itemArray", "inservices")
+                            ),
+                            $(go.Panel, "Table",
+                                {
+                                    padding: 2,
+                                    minSize: new go.Size(100, 10),
+                                    defaultStretch: go.GraphObject.Horizontal,
+                                    itemTemplate: fieldTemplateRight
+                                },
+                                new go.Binding("itemArray", "outservices")
+                            )
+                        ),
+                    )
+                );
+
+
             myDiagram.linkTemplate =
                 $(go.Link,
                     {routing: go.Link.Orthogonal, corner: 10, toShortLength: -3},
                     {relinkableFrom: true, relinkableTo: true, reshapable: true, resegmentable: true},
-                    $(go.Shape, {stroke: "gray", strokeWidth: 2.5})
+                    $(go.Shape, {stroke: "gray", strokeWidth: 2.5}),
+                    $(go.Shape,  // the arrowhead
+                        {toArrow: "standard", stroke: null}),
                 );
 
             function findAllSelectedItems() {
@@ -226,31 +374,43 @@ var app = new Vue({
 
 
             var services = [
-                {key: 2, name: "Other", inservices: [{name: "s1"}, {name: "s2"}], loc: "200 60"}
+                // {key: "test", name: "Other", inservices: [{name: "s1"}, {name: "s2"}], loc: "200 60"}
             ];
 
 
             var t = this;
+            var links = [
+                //   {from: 1, fromPort: "o1o1o1", to: 2, toPort: "s1"}
+            ];
 
             var id = 0;
             Object.keys(this.sources).forEach(function(key) {
                 id++;
 
 
-                var inservices = [{name: "s1"}, {name: "s2"}];
-                var outservices = [{name: "o1"}];
-
-                services.push(
-                    {key: id, name: key, inservices: inservices, outservices: outservices, loc: "0 0"},
-                );
-
+                var inservices = [];
+                var outservices = [
+                    //{name: "o1o1o1"}
+                ];
 
                 jQuery.each(t.sources[key].data.api, function(path, val) {
-                    console.log(path, val);
+                    console.log(key, path);
+                    inservices.push({name: path, operationId: Object.keys(val).join(',')});
+                });
 
-                   inservices.push({name: path});
+                jQuery.each(t.sources[key].data.sevice, function(path, val) {
+
+                    outservices.push({name: val.path , operationId: val.operationId});
+                    links.push({from: key, fromPort: val.operationId, to: val.microservice, toPort: val.path, operationId: val.operationId})
+                    //links.push({from: key, fromPort: val.path, to: val.microservice, toPort: val.path, operationId: val.operationId})
 
                 });
+
+                console.log(t.sources[key].apidoc);
+                services.push(
+
+                    {key: key, name: key, inservices: inservices, outservices: outservices,url:t.sources[key].apidoc},
+                );
 
 
                 // t.sources[key].data.sevice.forEach(function(item) {
@@ -262,6 +422,7 @@ var app = new Vue({
 
 
             });
+            console.log(links);
 
             myDiagram.model =
                 $(go.GraphLinksModel,
@@ -271,9 +432,7 @@ var app = new Vue({
                         linkFromPortIdProperty: "fromPort",
                         linkToPortIdProperty: "toPort",
                         nodeDataArray: services,
-                        linkDataArray: [
-                            {from: 1, fromPort: "o1", to: 2, toPort: "s2"}
-                        ]
+                        linkDataArray: links
                     });
             showModel();
 
@@ -309,7 +468,7 @@ var app = new Vue({
             t.drawMap()
         }).catch(function(err) {
             console.log('errr------------------------------------------------');
-            t.drawMap()
+//            t.drawMap()
         });
 
     }
