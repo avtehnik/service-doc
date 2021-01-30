@@ -4,83 +4,21 @@ var app = new Vue({
 
         message: 'Hello Vue!',
         sources: {
-            'payment': {
-                'apidoc': 'http://payment-develop.kube-two.yallasvc.net/documentation/api',
-                'sevicedoc': 'http://payment-doc.lalafo.loc/service-doc.php',
+            'foo': {
+                'apidoc': 'http://someurl',
+                'sevicedoc': 'http://someurl',
                 'apidocLoaded': false,
                 'sevicedocLoaded': false,
                 'data': {'api': [], 'sevice': []}
             },
-            'calaog': {
-                'apidoc': 'http://catalog-develop.kube-two.yallasvc.net/documentation/api',
-                'sevicedoc': 'http://calaog-doc.lalafo.loc/service-doc.php',
+            'bar': {
+                'apidoc': 'http://someurl',
+                'sevicedoc': 'http://someurl',
                 'apidocLoaded': false,
                 'sevicedocLoaded': false,
                 'data': {'api': [], 'sevice': []}
             },
-            'client': {
-                'apidoc': null,
-                'sevicedoc': 'http://client-doc.lalafo.loc/service-doc.php',
-                'apidocLoaded': false,
-                'sevicedocLoaded': false,
-                'data': {'api': [], 'sevice': []}
-            },
-            'seo': {
-                'apidoc': null,
-                'sevicedoc': 'http://seo-doc.lalafo.loc/service-doc.php',
-                'apidocLoaded': false,
-                'sevicedocLoaded': false,
-                'data': {'api': [], 'sevice': []}
-            },
-            'location': {
-                'apidoc': 'http://location-develop.kube-two.yallasvc.net/documentation/api',
-                'sevicedoc': null,
-                'apidocLoaded': false,
-                'sevicedocLoaded': false,
-                'data': {'api': [], 'sevice': []}
-            },
-            'search': {
-                'apidoc': 'http://search-develop.kube-two.yallasvc.net/documentation/api',
-                'sevicedoc': 'http://search-doc.lalafo.loc/service-doc.php',
-                'apidocLoaded': false,
-                'sevicedocLoaded': false,
-                'data': {'api': [], 'sevice': []}
-            },
-            'translation': {
-                'apidoc': 'http://translation-develop.kube-two.yallasvc.net/documentation/api',
-                'sevicedoc': null,
-                'apidocLoaded': false,
-                'sevicedocLoaded': false,
-                'data': {'api': [], 'sevice': []}
-            },
-            'sender': {
-                'apidoc': 'http://sender-develop.kube-two.yallasvc.net/documentation/api',
-                'sevicedoc': null,
-                'apidocLoaded': false,
-                'sevicedocLoaded': false,
-                'data': {'api': [], 'sevice': []}
-            },
-            'duplicates': {
-                'apidoc': 'http://duplicates-develop.kube-two.yallasvc.net/documentation/api',
-                'sevicedoc': null,
-                'apidocLoaded': false,
-                'sevicedocLoaded': false,
-                'data': {'api': [], 'sevice': []}
-            },
-            'fraud': {
-                'apidoc': 'http://fraud-develop.kube-two.yallasvc.net/documentation/api',
-                'sevicedoc': null,
-                'apidocLoaded': false,
-                'sevicedocLoaded': false,
-                'data': {'api': [], 'sevice': []}
-            },
-            'user': {
-                'apidoc': 'http://user-develop.kube-two.yallasvc.net/documentation/api',
-                'sevicedoc': 'http://user-doc.lalafo.loc/service-doc.php',
-                'apidocLoaded': false,
-                'sevicedocLoaded': false,
-                'data': {'api': [], 'sevice': []}
-            }
+
         },
         loadedData: []
     },
