@@ -20,21 +20,21 @@ namespace ServiceDoc;
  *      |- propertyContext
  *      |- methodContext
  *
- * @property string                           $comment  The PHP DocComment
- * @property string                           $filename
- * @property int                              $line
- * @property int                              $character
+ * @property string $comment  The PHP DocComment
+ * @property string $filename
+ * @property int $line
+ * @property int $character
  *
- * @property string                           $namespace
- * @property array                            $uses
- * @property string                           $class
- * @property string                           $extends
- * @property string                           $method
- * @property string                           $property
- * @property string                           $trait
+ * @property string $namespace
+ * @property array $uses
+ * @property string $class
+ * @property string $extends
+ * @property string $method
+ * @property string $property
+ * @property string $trait
  * @property Annotations\AbstractAnnotation[] $annotations
  */
-class Context
+class Context implements \JsonSerializable
 {
     /**
      * Prototypical inheritance for properties.
@@ -44,8 +44,8 @@ class Context
     private $_parent;
 
     /**
-     * @param array   $properties new properties for this context.
-     * @param Context $parent     The parent context
+     * @param array $properties new properties for this context.
+     * @param Context $parent The parent context
      */
     public function __construct($properties = [], $parent = null)
     {
@@ -82,7 +82,7 @@ class Context
     /**
      * Return the context containing the specified property.
      *
-     * @param  string $property
+     * @param string $property
      * @return boolean|Context
      */
     public function with($property)
@@ -253,7 +253,7 @@ class Context
     /**
      * Create a Context based on the debug_backtrace
      *
-     * @param  int $index
+     * @param int $index
      * @return Context
      */
     public static function detect($index = 0)
@@ -338,5 +338,25 @@ class Context
         }
 
         return $namespace . $class;
+    }
+
+    public function jsonSerialize()
+    {
+        return [
+            'line' => $this->line,
+            'filename' => $this->filename,
+            'method' => $this->method,
+            'class' => $this->class
+        ];
+    }
+
+    public function toString()
+    {
+
+        if ($this->namespace && false) {
+            return  $this->namespace . $this->class . '::' . $this->method;
+        } else {
+            return $this->class . '::' . $this->method;
+        }
     }
 }

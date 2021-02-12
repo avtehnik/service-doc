@@ -52,6 +52,20 @@ class ServiceDoc extends AbstractAnnotation
     /**
      * The available paths and operations for the API.
      *
+     * @var Table
+     */
+    public $tables = UNDEFINED;
+
+    /**
+     * The available paths and operations for the API.
+     *
+     * @var DataFlow
+     */
+    public $flows = UNDEFINED;
+
+    /**
+     * The available paths and operations for the API.
+     *
      * @var Url[]
      */
     public $urls = UNDEFINED;
@@ -111,14 +125,16 @@ class ServiceDoc extends AbstractAnnotation
     /**
      * @inheritdoc
      */
-    public static $_required = ['servicedoc', 'info', 'paths'];
+    public static $_required = [];
 
     /**
      * @inheritdoc
      */
     public static $_nested = [
         Info::class => 'info',
-        Url::class => ['urls','url'],
+        Table::class => ['tables'],
+        DataFlow::class => ['flows'],
+        Url::class => ['urls', 'url'],
         Server::class => ['servers'],
         PathItem::class => ['paths'],
         Components::class => 'components',

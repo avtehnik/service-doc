@@ -63,9 +63,9 @@ abstract class AbstractAnnotation implements JsonSerializable
     /**
      * Declarative mapping of Annotation types to properties.
      * Examples:
-     *   Info::clas => 'info', // Set @ServiceDoc\Info annotation as the info property.
-     *   Parameter::clas => ['parameters'],  // Append @ServiceDoc\Parameter annotations the parameters array.
-     *   PathItem::clas => ['paths', 'path'],  // Append @ServiceDoc\PathItem annotations the paths array and use path as key.
+     *   Info::class => 'info', // Set @ServiceDoc\Info annotation as the info property.
+     *   Parameter::class => ['parameters'],  // Append @ServiceDoc\Parameter annotations the parameters array.
+     *   PathItem::class => ['paths', 'path'],  // Append @ServiceDoc\PathItem annotations the paths array and use path as key.
      *
      * @var array
      */
@@ -268,6 +268,8 @@ abstract class AbstractAnnotation implements JsonSerializable
     public function jsonSerialize()
     {
         $data = new stdClass();
+        $data->key = Id::getId();
+//        $data->context = $this->_context->toString();
         // Strip undefined values.
         foreach (get_object_vars($this) as $property => $value) {
             if ($value !== UNDEFINED) {

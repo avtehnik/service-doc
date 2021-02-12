@@ -35,7 +35,7 @@ class StaticAnalyser
                 $GLOBALS['servicedoc_opcache_warning'] = true;
                 $status = opcache_get_status();
                 $config = opcache_get_configuration();
-                if ($status['opcache_enabled'] && $config['directives']['opcache.save_comments'] == false) {
+                if ($status && $status['opcache_enabled'] && $config['directives']['opcache.save_comments'] == false) {
                     Logger::warning("php.ini \"opcache.save_comments = 0\" interferes with extracting annotations.\n[LINK] http://php.net/manual/en/opcache.configuration.php#ini.opcache.save-comments");
                 }
             }
@@ -111,7 +111,9 @@ class StaticAnalyser
                     // php7 anonymous classes (i.e. new class() { public function foo() {} };)
                     continue;
                 }
-
+                if(!is_array($token)){
+                    continue;
+                }
                 $schemaContext = new Context(['class' => $token[1], 'line' => $token[2]], $parseContext);
                 if ($classDefinition) {
                     $analysis->addClassDefinition($classDefinition);
@@ -325,6 +327,11 @@ class StaticAnalyser
     {
         while (true) {
             $token = next($tokens);
+
+            if (key($tokens)===null){
+                return  false;
+            }
+
             if ($token[0] === T_WHITESPACE) {
                 continue;
             }
@@ -333,7 +340,8 @@ class StaticAnalyser
                 if ($pos) {
                     $line = $context->line ? $context->line + $token[2] : $token[2];
                     $commentContext = new Context(['line' => $line], $context);
-                    Logger::notice('Annotations are only parsed inside `/**` DocBlocks, skipping ' . $commentContext);
+                    //todo
+                    //Logger::notice('Annotations are only parsed inside `/**` DocBlocks, skipping ' . $commentContext);
                 }
                 continue;
             }
